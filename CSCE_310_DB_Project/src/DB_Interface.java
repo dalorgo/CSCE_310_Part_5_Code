@@ -18,10 +18,10 @@ public class DB_Interface {
 	}
 	
 	public static void connect_to_db() {
-		String DBLocation = "database-new.cse.tamu.edu"; //The host 
-		String DBname = "jdonais-pokemonproject"; //Generally your CS username or username-text like explained above
-		String DBUser = "jdonais"; //CS username
-		String DBPass = "11Jordan18SQL"; //password setup via CSNet for the MySQL database
+		String DBLocation = "localhost:3306"; //The host 
+		String DBname = "jdonais_pokemonproject"; //Generally your CS username or username-text like explained above
+		String DBUser = "root"; //CS username
+		String DBPass = "mysql"; //password setup via CSNet for the MySQL database
 
 		Connection conn = null;
 		try
