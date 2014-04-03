@@ -10,20 +10,19 @@ import java.sql.Statement;
 
 public class DB_Interface {
 	
-	public static void main(String args[]) {
-		connect_to_db();
-	}
-
+	private PreparedStatement ps = null;
+	private Connection conn = null;
+	
 	public DB_Interface() {
 	}
 	
-	public static void connect_to_db() {
+	public void connect_to_db() {
 		String DBLocation = "localhost:3306"; //The host 
 		String DBname = "pokemondb";
 		String DBUser = "root";
 		String DBPass = "mysql"; 
 
-		Connection conn = null;
+		//Connection conn = null;
 		try
 		{
 		 String connectionString = "jdbc:mysql://"+DBLocation+"/"+DBname;
@@ -35,13 +34,32 @@ public class DB_Interface {
 		{
 		 System.out.println("Connection Issue: " + e.getMessage());
 		}
+//		try {
+//			conn.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		System.out.println("Connection was a go.");
+	}
+	
+	public void close_connection() {
 		try {
 			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ResultSet executeCustomQuery(String query) {
+		ResultSet rSet = null;
+		try {
+			rSet = conn.prepareStatement(query).executeQuery();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Connection was a go.");
+		return rSet;
 	}
 	
 }
