@@ -19,9 +19,9 @@ public class DB_Interface {
 	
 	public static void connect_to_db() {
 		String DBLocation = "localhost:3306"; //The host 
-		String DBname = "jdonais_pokemonproject"; //Generally your CS username or username-text like explained above
-		String DBUser = "root"; //CS username
-		String DBPass = "mysql"; //password setup via CSNet for the MySQL database
+		String DBname = "pokemondb";
+		String DBUser = "root";
+		String DBPass = "mysql"; 
 
 		Connection conn = null;
 		try
