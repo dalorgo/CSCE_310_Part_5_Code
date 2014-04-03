@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 
 
@@ -49,6 +50,45 @@ public class DB_Interface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Boolean updateDescription() {
+		Scanner reader = new Scanner(System.in);
+		String pokemonName = "", description = "";
+		System.out.print("Please enter the name of the Pokemon to update the description of: ");
+		pokemonName = reader.next();
+		//if (reader.hasNext()) {
+//			System.out.println("Extra stuff found.");
+			reader.nextLine();
+//			System.out.println("Extra stuff removed.");
+//		}
+		// Check to see if the name was valid
+		try {
+			PreparedStatement nameChecker = conn.prepareStatement("SELECT * FROM Pokemon WHERE Name = ?;");
+			nameChecker.setString(1, pokemonName);
+			ResultSet rVal = nameChecker.executeQuery();
+			if (!rVal.first()) {
+				System.out.println("ERROR: Invalid Pokemon name entered.");
+				return false;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.print("Please enter the new description for this Pokemon: ");
+		description = reader.nextLine();
+		try {
+			PreparedStatement descAdd = conn.prepareStatement("UPDATE Pokemon SET Description = ? WHERE Name = ?;");
+			descAdd.setString(1, description);
+			descAdd.setString(2, pokemonName);
+			descAdd.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 	
 	public ResultSet executeCustomQuery(String query) {

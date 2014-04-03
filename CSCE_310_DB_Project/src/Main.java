@@ -8,6 +8,10 @@ public class Main {
 		DB_Interface pdb = new DB_Interface();
 		pdb.connect_to_db();
 		
+		if (pdb.updateDescription()) {
+			System.out.println("Pokemon was there.");
+		}
+		
 		ResultSet pokemons = null;
 		pokemons = pdb.executeCustomQuery("SELECT Name, NationalId, Description FROM Pokemon ORDER BY NationalId");
 		
