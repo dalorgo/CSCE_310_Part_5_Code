@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -100,6 +101,31 @@ public class DB_Interface {
 			e.printStackTrace();
 		}
 		return rSet;
+	}
+	
+	public void printResultSet(ResultSet rsIn) {
+		int columnCount = -1;
+		try {
+			// First get the column count
+			columnCount = rsIn.getMetaData().getColumnCount();
+			for (int i = 1; i < columnCount + 1; i++) {
+				System.out.print("[");
+				System.out.print(rsIn.getMetaData().getColumnName(i));
+				System.out.print("]");
+			}
+			System.out.println("");
+			while (rsIn.next()) {
+				for (int i = 1; i < columnCount + 1; i++) {
+					System.out.print("[");
+					System.out.print(rsIn.getString(i));
+					System.out.print("]");
+				}
+				System.out.println("");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
