@@ -24,7 +24,6 @@ public class DB_Interface {
 		String DBUser = "root";
 		String DBPass = "mysql"; 
 
-		//Connection conn = null;
 		try
 		{
 		 String connectionString = "jdbc:mysql://"+DBLocation+"/"+DBname;
@@ -36,12 +35,7 @@ public class DB_Interface {
 		{
 		 System.out.println("Connection Issue: " + e.getMessage());
 		}
-//		try {
-//			conn.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
 		System.out.println("Connection was a go.");
 	}
 	
@@ -58,11 +52,7 @@ public class DB_Interface {
 		String pokemonName = "", description = "";
 		System.out.print("Please enter the name of the Pokemon to update the description of: ");
 		pokemonName = reader.next();
-		//if (reader.hasNext()) {
-//			System.out.println("Extra stuff found.");
-			reader.nextLine();
-//			System.out.println("Extra stuff removed.");
-//		}
+		reader.nextLine();
 		// Check to see if the name was valid
 		try {
 			PreparedStatement nameChecker = conn.prepareStatement("SELECT * FROM Pokemon WHERE Name = ?;");
@@ -122,6 +112,63 @@ public class DB_Interface {
 				}
 				System.out.println("");
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void findTypeAdvantage() {
+		Scanner reader = new Scanner(System.in);
+		String typeName = "";
+		System.out.print("Please enter the type that you wish to find Pokemon strong against: ");
+		typeName = reader.next();
+		// Check if type does exist
+		try {
+			PreparedStatement typeChecker = conn.prepareStatement("SELECT * FROM Types WHERE Name = ?;");
+			typeChecker.setString(1, typeName);
+			ResultSet rVal = typeChecker.executeQuery();
+			if (!rVal.first()) {
+				System.out.println("ERROR: Invalid Type entered.");
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		String query = "";
+		query += "SELECT DISTINCT";
+		query += " p.Name";
+		query += " FROM";
+		query += " Weaknesses w";
+		query += " JOIN";
+		query += " Types weak_type";
+		query += " ON";
+		query += " weak_type.GUID = w.PokemonUIDWeak";
+		query += " JOIN";
+		query += " Types strong_type";
+		query += " ON";
+		query += " strong_type.GUID = w.PokemonUIDStrong";
+		query += " JOIN";
+		query += " Type_ pokemon_to_type";
+		query += " ON";
+		query += " pokemon_to_type.TypeUID = strong_type.GUID";
+		query += " JOIN";
+		query += " Pokemon p";
+		query += " ON";
+		query += " p.GUID = pokemon_to_type.PokemonUID";
+		query += " WHERE";
+		query += " weak_type.Name = ?"; 
+		query += " ORDER BY";
+		query += " p.NationalId;";
+		
+		// Find the pokemon
+		try {
+			PreparedStatement typeChecker = conn.prepareStatement(query);
+			typeChecker.setString(1, typeName);
+			ResultSet rVal = typeChecker.executeQuery();
+			printResultSet(rVal);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

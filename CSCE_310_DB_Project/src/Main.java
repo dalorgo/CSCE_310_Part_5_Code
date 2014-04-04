@@ -14,6 +14,7 @@ public class Main {
 		System.out.println("0 : Find all Pokemon who are type weak to a chosen type.");
 		System.out.println("1 : Update the description of a Pokemon.");
 		System.out.println("2 : List all Pokemon in database.");
+		System.out.println("quit : Exit the program.");
 	}
 	
 	public static void sorry() {
@@ -34,8 +35,7 @@ public class Main {
 					System.out.println("System now quitting...");
 					return;
 				case ("0"):
-					sorry();
-					// do something
+					pdb.findTypeAdvantage();
 					break;
 				case ("1"):
 					pdb.updateDescription();
