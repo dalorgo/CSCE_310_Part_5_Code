@@ -14,6 +14,8 @@ public class Main {
 		System.out.println("0 : Find all Pokemon who are type weak to a chosen type.");
 		System.out.println("1 : Update the description of a Pokemon.");
 		System.out.println("2 : List all Pokemon in database.");
+		System.out.println("3 : Add a new Pokemon to database.");
+		System.out.println("4 : Say a random Pokemon quote.");
 		System.out.println("quit : Exit the program.");
 	}
 	
@@ -42,6 +44,12 @@ public class Main {
 					break;
 				case ("2"):
 					pdb.printResultSet(pdb.executeCustomQuery("SELECT Name, NationalId, Description FROM Pokemon ORDER BY NationalId"));
+					break;
+				case ("3"):
+					pdb.addPokemon();
+					break;
+				case ("4"):
+					pdb.sayRandom();
 					break;
 				case ("help"):
 					helpInfo();

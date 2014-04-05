@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 
 
@@ -169,6 +170,81 @@ public class DB_Interface {
 			typeChecker.setString(1, typeName);
 			ResultSet rVal = typeChecker.executeQuery();
 			printResultSet(rVal);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void sayRandom() {
+		printResultSet(executeCustomQuery("SELECT * FROM RandomQuotes ORDER BY RAND() LIMIT 1;"));
+	}
+	
+	public void addPokemon() {
+		String name, desc;
+		int id, hp, atk, def, satk, sdef, spd, ht;
+		float wt;
+		Scanner reader = new Scanner(System.in);
+		System.out.print("Please enter the name of the new Pokemon: ");
+		name = reader.nextLine();
+		// Check if the name already exists...
+		try {
+			PreparedStatement typeChecker;
+			typeChecker = conn.prepareStatement("SELECT * FROM Pokemon WHERE Name = ?;");
+			typeChecker.setString(1, name);
+			ResultSet rVal = typeChecker.executeQuery();
+			if (rVal.first()) {
+				System.out.println("ERROR: Pokemon already exists.");
+				return;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			System.out.print("Please enter the National ID for " + name + ": ");
+			id = reader.nextInt();
+			System.out.print("Please enter the HP stat: ");
+			hp = reader.nextInt();
+			System.out.print("Please enter the Attack stat: ");
+			atk = reader.nextInt();
+			System.out.print("Please enter the Defense stat: ");
+			def = reader.nextInt();
+			System.out.print("Please enter the Special Attack stat: ");
+			satk = reader.nextInt();
+			System.out.print("Please enter the Special Defense stat: ");
+			sdef = reader.nextInt();
+			System.out.print("Please enter the Speed stat: ");
+			spd = reader.nextInt();
+			System.out.print("Please enter its Height (in inches): ");
+			ht = reader.nextInt();
+			System.out.print("Please enter its Weight (in pounds): ");
+			wt = reader.nextFloat();
+			reader.nextLine();
+			System.out.print("Please enter a description: ");
+			desc = reader.nextLine();
+		} catch (java.util.InputMismatchException e) {
+			System.out.println("ERROR: Invalid input detected for the requested field.");
+			return;
+		}
+
+		PreparedStatement pokemonInsert;
+		try {
+			pokemonInsert = conn.prepareStatement("INSERT INTO Pokemon VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+			pokemonInsert.setString(1, UUID.randomUUID().toString());
+			pokemonInsert.setInt(2, id);
+			pokemonInsert.setString(3, name);
+			pokemonInsert.setInt(4, hp);
+			pokemonInsert.setInt(5, atk);
+			pokemonInsert.setInt(6, def);
+			pokemonInsert.setInt(7, spd);
+			pokemonInsert.setInt(8, ht);
+			pokemonInsert.setFloat(9, wt);
+			pokemonInsert.setInt(10, satk);
+			pokemonInsert.setInt(11, spd);
+			pokemonInsert.setString(12, desc);
+			pokemonInsert.executeUpdate();
+			printResultSet(executeCustomQuery("SELECT * FROM Pokemon WHERE Name = \'" + name + "\';"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
