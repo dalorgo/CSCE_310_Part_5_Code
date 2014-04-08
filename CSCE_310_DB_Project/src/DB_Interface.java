@@ -2,10 +2,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+//import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+//import java.sql.Statement;
+//import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public class DB_Interface {
 	
-	private PreparedStatement ps = null;
 	private Connection conn = null;
 	
 	public DB_Interface() {
@@ -48,8 +47,8 @@ public class DB_Interface {
 		}
 	}
 	
-	public Boolean updateDescription() {
-		Scanner reader = new Scanner(System.in);
+	public Boolean updateDescription(Scanner reader) {
+//		Scanner reader = new Scanner(System.in);
 		String pokemonName = "", description = "";
 		System.out.print("Please enter the name of the Pokemon to update the description of: ");
 		pokemonName = reader.next();
@@ -64,7 +63,6 @@ public class DB_Interface {
 				return false;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -76,10 +74,8 @@ public class DB_Interface {
 			descAdd.setString(2, pokemonName);
 			descAdd.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return true;
 	}
 	
@@ -88,7 +84,6 @@ public class DB_Interface {
 		try {
 			rSet = conn.prepareStatement(query).executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rSet;
@@ -114,13 +109,12 @@ public class DB_Interface {
 				System.out.println("");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void findTypeAdvantage() {
-		Scanner reader = new Scanner(System.in);
+	public void findTypeAdvantage(Scanner reader) {
+//		Scanner reader = new Scanner(System.in);
 		String typeName = "";
 		System.out.print("Please enter the type that you wish to find Pokemon strong against: ");
 		typeName = reader.next();
@@ -134,7 +128,6 @@ public class DB_Interface {
 				return;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -171,7 +164,6 @@ public class DB_Interface {
 			ResultSet rVal = typeChecker.executeQuery();
 			printResultSet(rVal);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -180,11 +172,12 @@ public class DB_Interface {
 		printResultSet(executeCustomQuery("SELECT * FROM RandomQuotes ORDER BY RAND() LIMIT 1;"));
 	}
 	
-	public void addPokemon() {
+	public void addPokemon(Scanner reader) {
 		String name, desc;
-		int id, hp, atk, def, satk, sdef, spd, ht;
+		@SuppressWarnings("unused")
+		int id, hp, atk, def, satk, spd, ht, sdef;
 		float wt;
-		Scanner reader = new Scanner(System.in);
+//		Scanner reader = new Scanner(System.in);
 		System.out.print("Please enter the name of the new Pokemon: ");
 		name = reader.nextLine();
 		// Check if the name already exists...
@@ -198,7 +191,6 @@ public class DB_Interface {
 				return;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
@@ -246,7 +238,6 @@ public class DB_Interface {
 			pokemonInsert.executeUpdate();
 			printResultSet(executeCustomQuery("SELECT * FROM Pokemon WHERE Name = \'" + name + "\';"));
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

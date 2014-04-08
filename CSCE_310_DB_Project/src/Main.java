@@ -1,7 +1,9 @@
-import java.sql.ResultSet;
-import java.sql.SQLException;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
 import java.util.Scanner;
-
+//import java.awt.Dialog;
+//
+//import javax.swing.JOptionPane;
 
 public class Main {
 
@@ -24,6 +26,7 @@ public class Main {
 	}
 	
 	public static void interfaceLoop() {
+//		JOptionPane.showInputDialog("Hello");
 		Scanner reader = new Scanner(System.in);
 		String commandNum = "";
 		DB_Interface pdb = new DB_Interface();
@@ -37,16 +40,16 @@ public class Main {
 					System.out.println("System now quitting...");
 					return;
 				case ("0"):
-					pdb.findTypeAdvantage();
+					pdb.findTypeAdvantage(reader);
 					break;
 				case ("1"):
-					pdb.updateDescription();
+					pdb.updateDescription(reader);
 					break;
 				case ("2"):
 					pdb.printResultSet(pdb.executeCustomQuery("SELECT Name, NationalId, Description FROM Pokemon ORDER BY NationalId"));
 					break;
 				case ("3"):
-					pdb.addPokemon();
+					pdb.addPokemon(reader);
 					break;
 				case ("4"):
 					pdb.sayRandom();
@@ -63,6 +66,7 @@ public class Main {
 			e.printStackTrace();
 		} finally {
 			pdb.close_connection();
+			reader.close();
 		}
 		
 	}
