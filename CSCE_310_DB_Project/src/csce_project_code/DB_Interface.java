@@ -1,3 +1,5 @@
+package csce_project_code;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,7 +10,6 @@ import java.sql.SQLException;
 //import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
-
 
 
 public class DB_Interface {
@@ -179,7 +180,7 @@ public class DB_Interface {
 		float wt;
 //		Scanner reader = new Scanner(System.in);
 		System.out.print("Please enter the name of the new Pokemon: ");
-		name = reader.nextLine();
+		name = reader.next();
 		// Check if the name already exists...
 		try {
 			PreparedStatement typeChecker;
