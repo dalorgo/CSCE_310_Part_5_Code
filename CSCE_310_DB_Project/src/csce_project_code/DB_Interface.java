@@ -19,6 +19,7 @@ public class DB_Interface {
 	public DB_Interface() {
 	}
 	
+	// Connects to the database, or reports errors
 	public void connect_to_db() {
 		String DBLocation = "localhost:3306"; //The host 
 		String DBname = "pokemondb";
@@ -40,6 +41,7 @@ public class DB_Interface {
 		System.out.println("Connection was a go.");
 	}
 	
+	// Closes the current connection, if there is one
 	public void close_connection() {
 		try {
 			conn.close();
@@ -48,8 +50,9 @@ public class DB_Interface {
 		}
 	}
 	
+	// Updates the description field of a chosen Pokemon
+	// If the Pokemon does not exist, function will return
 	public Boolean updateDescription(Scanner reader) {
-//		Scanner reader = new Scanner(System.in);
 		String pokemonName = "", description = "";
 		System.out.print("Please enter the name of the Pokemon to update the description of: ");
 		pokemonName = reader.next();
@@ -80,6 +83,7 @@ public class DB_Interface {
 		return true;
 	}
 	
+	// Pre-setup function for easy query writing.
 	public ResultSet executeCustomQuery(String query) {
 		ResultSet rSet = null;
 		try {
@@ -90,6 +94,9 @@ public class DB_Interface {
 		return rSet;
 	}
 	
+	/*
+	 *  Prints the ResultSet from a query in table form.
+	 */
 	public void printResultSet(ResultSet rsIn) {
 		int columnCount = -1;
 		try {
@@ -114,8 +121,11 @@ public class DB_Interface {
 		}
 	}
 	
+	/*
+	 *  Finds all Pokemon who have a Type advantage against a specified
+	 *  Type. If the type does not exist, function will return.
+	 */
 	public void findTypeAdvantage(Scanner reader) {
-//		Scanner reader = new Scanner(System.in);
 		String typeName = "";
 		System.out.print("Please enter the type that you wish to find Pokemon strong against: ");
 		typeName = reader.next();
@@ -169,10 +179,12 @@ public class DB_Interface {
 		}
 	}
 	
+	// Just for fun, print a random quote.
 	public void sayRandom() {
 		printResultSet(executeCustomQuery("SELECT * FROM RandomQuotes ORDER BY RAND() LIMIT 1;"));
 	}
 	
+	// Adds a Pokemon to the Pokemon table, but nothing else...
 	public void addPokemon(Scanner reader) {
 		String name, desc;
 		@SuppressWarnings("unused")
